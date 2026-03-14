@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,6 +16,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "produto")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Produto {
 
     @Id

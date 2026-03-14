@@ -1,12 +1,19 @@
 package adega.projeto.com.demo.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "endereco")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Endereco {
 
     @Id
@@ -30,6 +37,7 @@ public class Endereco {
     private List<Funcionario> funcionario;
 
     // em um endereço pode ter vários fornecedores
-    @OneToMany(mappedBy = "endereco")
+    @OneToMany(mappedBy = "endereco",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Fornecedor> fornecedores;
 }

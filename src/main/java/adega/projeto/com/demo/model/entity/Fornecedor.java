@@ -1,13 +1,20 @@
 package adega.projeto.com.demo.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 
 @Table
 @Entity(name = "fornecedor")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Fornecedor {
 
     @Id
@@ -18,7 +25,9 @@ public class Fornecedor {
     private String nome;
 
     // um fornecedor só tem apenas 1 endereço
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco")
+    @JsonIgnore
     private Endereco endereco;
 
     @Column(name = "telefone", length = (20),nullable = false)
