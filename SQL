@@ -1,0 +1,82 @@
+-- Criar tipo enumerado para os produtos
+CREATE TYPE tipo_produto AS ENUM (
+    'vinho_tinto',
+    'vinho_branco',
+    'vinho_rose',
+    'espumante',
+    'porto',
+    'cerveja',
+    'licor',
+    'vodka',
+    'gin',
+    'rum',
+    'whisky',
+    'conhaque',
+    'tequila',
+    'cachaca'
+);
+
+-- Extensão necessária para gerar UUIDs automaticamente
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+
+-- Tabela de fornecedores
+CREATE TABLE fornecedor (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(200),
+    telefone VARCHAR(20),
+    email VARCHAR(100)
+);
+
+-- Tabela de produtos
+CREATE TABLE produto (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nome VARCHAR(100) NOT NULL,
+    tipo tipo_produto NOT NULL,
+    teor_alcoolico NUMERIC(5,2), -- em %
+    volume INTEGER, -- em ml
+    vencimento DATE,
+    fornecedor_id UUID REFERENCES fornecedor(id)
+);
+
+-- Tabela de funcionários
+CREATE TABLE funcionario (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(200),
+    salario NUMERIC(10,2),
+    cargo VARCHAR(50),
+    idade INT,
+    data_contratacao DATE
+);
+
+
+-- Tabela de estoque
+CREATE TABLE estoque (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    produto_id UUID REFERENCES produto(id),
+    quantidade INT NOT NULL,
+    localizacao VARCHAR(100)
+);
+
+
+-- Tabela de vendas
+CREATE TABLE venda (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    produto_id UUID REFERENCES produto(id),
+    funcionario_id UUID REFERENCES funcionario(id),
+    data_venda DATE NOT NULL,
+    quantidade INT NOT NULL,
+    valor_total NUMERIC(10,2) NOT NULL
+);
+
+CREATE TABLE produto_fornecedor (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    produto_id UUID REFERENCES produto(id) ON DELETE CASCADE,
+    fornecedor_id UUID REFERENCES fornecedor(id) ON DELETE CASCADE
+);
+
+
+
+
