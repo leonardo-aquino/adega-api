@@ -1,13 +1,14 @@
 package adega.projeto.com.demo.service;
 
-import adega.projeto.com.demo.controller.dtos.FornecedorDTO;
-import adega.projeto.com.demo.controller.dtos.FornecedorDTOResponse;
+import adega.projeto.com.demo.controller.dto.FornecedorDTO;
+import adega.projeto.com.demo.controller.dto.FornecedorDTOResponse;
 import adega.projeto.com.demo.exceptions.IdIncorretoException;
 import adega.projeto.com.demo.model.entity.Fornecedor;
 import adega.projeto.com.demo.repository.EnderecoRepository;
 import adega.projeto.com.demo.repository.FornecedorRepository;
 import adega.projeto.com.demo.repository.specs.FornecedorSpecs;
 import adega.projeto.com.demo.validador.FornecedorValidador;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,7 @@ public class FornecedorService {
     private final FornecedorRepository fornecedorRepository;
     private final EnderecoRepository enderecoRepository;
 
+    @Transactional
     public void salvarFornecedor(Fornecedor fornecedor){
         validador.validar(fornecedor);
         fornecedorRepository.save(fornecedor);
@@ -70,6 +72,7 @@ public class FornecedorService {
         return fornecedorRepository.findAll(specs,pageable);
     }
 
+    @Transactional
     public void deletarFornecedor(String id) {
 
         Optional<Fornecedor> existsFornecedor = fornecedorRepository.findById(UUID.fromString(id));
@@ -79,6 +82,7 @@ public class FornecedorService {
         fornecedorRepository.delete(existsFornecedor.get());
     }
 
+    @Transactional
     public void atualizarFornecedor(String id, FornecedorDTO dto) {
         Optional<Fornecedor> exitsFornecedor = fornecedorRepository.findById(UUID.fromString(id));
         if (exitsFornecedor.isEmpty()){

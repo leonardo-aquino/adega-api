@@ -1,4 +1,4 @@
-package adega.projeto.com.demo.controller.dtos;
+package adega.projeto.com.demo.controller.dto;
 
 import adega.projeto.com.demo.exceptions.IdIncorretoException;
 import adega.projeto.com.demo.model.entity.Endereco;

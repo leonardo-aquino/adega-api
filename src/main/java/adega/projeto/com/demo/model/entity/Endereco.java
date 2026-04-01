@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,10 +35,11 @@ public class Endereco {
 
     // em um endereço pode ter muitos funcionários
     @OneToMany(mappedBy = "endereco")
-    private List<Funcionario> funcionario;
+    @JsonIgnore
+    private List<Funcionario> funcionario = new ArrayList<>();
 
     // em um endereço pode ter vários fornecedores
     @OneToMany(mappedBy = "endereco",cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Fornecedor> fornecedores;
+    private List<Fornecedor> fornecedores = new ArrayList<>();
 }

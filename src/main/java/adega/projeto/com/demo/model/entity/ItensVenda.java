@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ItemVenda {
+public class ItensVenda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -27,6 +27,7 @@ public class ItemVenda {
 
     @ManyToOne
     @JoinColumn(name = "venda_id")
+    @JsonBackReference
     private Venda venda;
 
     @Column(nullable = false)
@@ -34,6 +35,5 @@ public class ItemVenda {
 
     @Column(name = "preco_unitario", precision = 10, scale = 2, nullable = false)
     private BigDecimal precoUnitario;
-
 
 }

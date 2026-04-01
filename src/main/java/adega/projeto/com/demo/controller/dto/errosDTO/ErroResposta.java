@@ -1,4 +1,4 @@
-package adega.projeto.com.demo.controller.dtos.errosDTO;
+package adega.projeto.com.demo.controller.dto.errosDTO;
 
 import java.util.List;
 

@@ -1,9 +1,8 @@
 package adega.projeto.com.demo.controller.common;
 
-import adega.projeto.com.demo.controller.dtos.errosDTO.ErroCampo;
-import adega.projeto.com.demo.controller.dtos.errosDTO.ErroResposta;
-import adega.projeto.com.demo.exceptions.EntidadeJaCriadaException;
-import adega.projeto.com.demo.exceptions.IdIncorretoException;
+import adega.projeto.com.demo.controller.dto.errosDTO.ErroCampo;
+import adega.projeto.com.demo.controller.dto.errosDTO.ErroResposta;
+import adega.projeto.com.demo.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,5 +43,42 @@ public class GlobalExceptionHandler {
     public ErroResposta idInvalido(EntidadeJaCriadaException e){
         ErroResposta erro = new ErroResposta(HttpStatus.CONFLICT.value(),e.getMessage(), List.of());
         return erro;
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CargoInvalidoException.class)
+    public ErroResposta cargoInvalido(CargoInvalidoException e){
+        ErroResposta erro = new ErroResposta(HttpStatus.BAD_REQUEST.value(),e.getMessage(), List.of());
+        return erro;
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FornecedorInexistenteException.class)
+    public ErroResposta FornecedorInexistenteException(FornecedorInexistenteException e){
+        ErroResposta erro = new ErroResposta(HttpStatus.BAD_REQUEST.value(),e.getMessage(), List.of());
+        return erro;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TipoProdutoInvalidoException.class)
+    public ErroResposta TipoProdutoInvalidoException(TipoProdutoInvalidoException e){
+        ErroResposta erro = new ErroResposta(HttpStatus.BAD_REQUEST.value(),e.getMessage(), List.of());
+        return erro;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(EstoqueInsuficienteException.class)
+    public ErroResposta EstoqueInsuficienteException(EstoqueInsuficienteException e){
+        ErroResposta erro = new ErroResposta(HttpStatus.BAD_REQUEST.value(),e.getMessage(), List.of());
+        return erro;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ErroResposta erroGenerico(Exception e) {
+        return new ErroResposta(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Erro inesperado no servidor", List.of());
     }
 }

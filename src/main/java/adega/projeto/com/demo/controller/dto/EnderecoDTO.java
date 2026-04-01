@@ -1,10 +1,9 @@
-package adega.projeto.com.demo.controller.dtos;
+package adega.projeto.com.demo.controller.dto;
 
 import adega.projeto.com.demo.model.entity.Endereco;
 import adega.projeto.com.demo.model.entity.Fornecedor;
 import adega.projeto.com.demo.model.entity.Funcionario;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.List;

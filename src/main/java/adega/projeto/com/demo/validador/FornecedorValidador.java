@@ -13,12 +13,12 @@ public class FornecedorValidador {
     private final FornecedorRepository repository;
 
     public void validar(Fornecedor fornecedor){
-       if (exitsEndereco(fornecedor)){
+       if (existsFornecedor(fornecedor)){
            throw new EntidadeJaCriadaException("Fornecedor ja Criado");
        }
     }
 
-    public boolean exitsEndereco (Fornecedor fornecedor){
+    public boolean existsFornecedor(Fornecedor fornecedor){
          return repository.existsByNomeAndEnderecoAndTelefoneAndEmail(
                  fornecedor.getNome(),
                  fornecedor.getEndereco(),

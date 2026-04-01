@@ -1,7 +1,7 @@
 package adega.projeto.com.demo.controller;
 
-import adega.projeto.com.demo.controller.dtos.FornecedorDTO;
-import adega.projeto.com.demo.controller.dtos.FornecedorDTOResponse;
+import adega.projeto.com.demo.controller.dto.FornecedorDTO;
+import adega.projeto.com.demo.controller.dto.FornecedorDTOResponse;
 import adega.projeto.com.demo.model.entity.Fornecedor;
 import adega.projeto.com.demo.repository.EnderecoRepository;
 import adega.projeto.com.demo.service.FornecedorService;
@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/fornecedor")
+@RequestMapping("/fornecedores")
 @RequiredArgsConstructor
 public class FornecedorController{
 

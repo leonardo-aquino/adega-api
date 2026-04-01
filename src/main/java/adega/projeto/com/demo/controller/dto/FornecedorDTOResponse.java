@@ -1,15 +1,10 @@
-package adega.projeto.com.demo.controller.dtos;
+package adega.projeto.com.demo.controller.dto;
 
-import adega.projeto.com.demo.exceptions.IdIncorretoException;
 import adega.projeto.com.demo.model.entity.Endereco;
 import adega.projeto.com.demo.model.entity.Fornecedor;
 import adega.projeto.com.demo.model.entity.Produto;
-import adega.projeto.com.demo.repository.EnderecoRepository;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
-import java.util.UUID;
 
 
 public record FornecedorDTOResponse(

@@ -18,7 +18,4 @@ public class FornecedorSpecs {
         return (root, query, cb) -> cb.like(cb.lower(root.get("email")),"%"+ email.toLowerCase() + "%") ;
     }
 
-    public static Specification<Endereco> bairroLike(String bairro) {
-        return (root, query, cb) -> cb.like(cb.lower(root.get("bairro")), "%" + bairro.toLowerCase() + "%");
-    }
 }

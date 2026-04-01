@@ -1,11 +1,12 @@
 package adega.projeto.com.demo.service;
 
-import adega.projeto.com.demo.controller.dtos.EnderecoDTO;
+import adega.projeto.com.demo.controller.dto.EnderecoDTO;
 import adega.projeto.com.demo.exceptions.IdIncorretoException;
 import adega.projeto.com.demo.model.entity.Endereco;
 import adega.projeto.com.demo.repository.EnderecoRepository;
 import adega.projeto.com.demo.repository.specs.EnderecoSpecs;
 import adega.projeto.com.demo.validador.EnderecoValidador;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ public class EnderecoService {
     private final EnderecoRepository enderecoRepository;
     private final EnderecoValidador validador;
 
+    @Transactional
     public Endereco salvarEndereco (Endereco endereco){
         validador.validar(endereco);
         return enderecoRepository.save(endereco);
@@ -64,6 +66,7 @@ public class EnderecoService {
         return optionalEndereco.get();
     }
 
+    @Transactional
     public Void atualizarEndereco(String id, EnderecoDTO enderecoDTO) {
         Optional<Endereco> optionalEndereco = enderecoRepository.findById(UUID.fromString(id));
 
@@ -82,6 +85,7 @@ public class EnderecoService {
         return null;
     }
 
+    @Transactional
     public void deletarEndereco(String id) {
         Optional<Endereco> optionalEndereco = enderecoRepository.findById(UUID.fromString(id));
         if (optionalEndereco.isEmpty()){

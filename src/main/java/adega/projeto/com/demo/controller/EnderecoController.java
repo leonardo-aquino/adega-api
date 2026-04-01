@@ -1,6 +1,6 @@
 package adega.projeto.com.demo.controller;
 
-import adega.projeto.com.demo.controller.dtos.EnderecoDTO;
+import adega.projeto.com.demo.controller.dto.EnderecoDTO;
 import adega.projeto.com.demo.model.entity.Endereco;
 import adega.projeto.com.demo.service.EnderecoService;
 import jakarta.validation.Valid;
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/endereco")
+@RequestMapping("/enderecos")
 @RequiredArgsConstructor
 public class EnderecoController {
 

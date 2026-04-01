@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class Fornecedor {
     private String nome;
 
     // um fornecedor só tem apenas 1 endereço
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_endereco")
     @JsonIgnore
     private Endereco endereco;
@@ -38,5 +39,6 @@ public class Fornecedor {
 
     // um fornecedor pode ter vários produtos
     @ManyToMany(mappedBy = "fornecedores")
-    private List<Produto> produtos;
+    @JsonIgnore
+    private List<Produto> produtos = new ArrayList<>();
 }
