@@ -1,5 +1,6 @@
 package adega.projeto.com.demo.controller;
 
+import adega.projeto.com.demo.controller.common.Location;
 import adega.projeto.com.demo.controller.dto.FornecedorDTO;
 import adega.projeto.com.demo.controller.dto.FornecedorDTOResponse;
 import adega.projeto.com.demo.model.entity.Fornecedor;
@@ -10,29 +11,36 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/fornecedores")
 @RequiredArgsConstructor
-public class FornecedorController{
+public class FornecedorController implements Location {
 
     private final EnderecoRepository enderecoRepository;
     private final FornecedorService fornecedorService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('DONO','GERENTE')")
     public ResponseEntity<Void> criarFornecedor(@RequestBody @Valid FornecedorDTO fornecedorDTO){
         Fornecedor fornecedor = fornecedorDTO.toEntity(fornecedorDTO,enderecoRepository);
-        fornecedorService.salvarFornecedor(fornecedor);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        var fornecedorCriado = fornecedorService.salvarFornecedor(fornecedor);
+        URI location = location(fornecedorCriado.getId());
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('DONO','GERENTE','FUNCIONARIO')")
     public ResponseEntity<FornecedorDTOResponse> buscarPorId(@PathVariable("id") String id){
        return ResponseEntity.status(HttpStatus.OK).body(fornecedorService.buscarPorId(id));
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('DONO','GERENTE','FUNCIONARIO')")
     public ResponseEntity<Page<FornecedorDTOResponse>> buscarFornecedor(@RequestParam(value = "pagina", defaultValue = "0")Integer pagina,
                                                             @RequestParam(value = "tamanho-pagina", defaultValue = "10")Integer tamanhoPagina,
                                                             @RequestParam(value = "nome", required = false)String nome,
@@ -45,12 +53,14 @@ public class FornecedorController{
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('DONO')")
     public ResponseEntity<Void> deletarFornecedor(@PathVariable("id") String id){
         fornecedorService.deletarFornecedor(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('DONO','GERENTE')")
     public ResponseEntity<Void> atualizarFornecedor(@PathVariable("id") String id,
                                                     @RequestBody @Valid FornecedorDTO dto){
         fornecedorService.atualizarFornecedor(id,dto);

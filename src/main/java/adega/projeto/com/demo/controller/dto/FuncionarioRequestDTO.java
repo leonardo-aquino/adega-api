@@ -32,6 +32,9 @@ public record FuncionarioRequestDTO(
         @Pattern(regexp = "\\d+", message = "O CPF deve conter apenas números")
         String cpf,
 
+        @NotBlank(message = "senha não pode ser nula")
+        String senha,
+
         @NotNull(message = "Salário é obrigatório")
         @Positive(message = "Salário deve ser positivo")
         @DecimalMin(value = "1000.00", inclusive = true)
@@ -43,8 +46,6 @@ public record FuncionarioRequestDTO(
         @NotNull(message = "Endereço não pode ser nulo")
         String endereco,
 
-        List<Venda> vendas,
-
         @NotBlank(message = "Idade não pode ser nula ou vazia")
         String idade) {
 
@@ -52,6 +53,7 @@ public record FuncionarioRequestDTO(
         Funcionario funcionario = new Funcionario();
         funcionario.setNome(dto.nome);
         funcionario.setSobrenome(dto.sobrenome);
+        funcionario.setSenha(dto.senha);
         funcionario.setSalario(dto.salario);
         funcionario.setIdade(dto.idade);
         funcionario.setCpf(dto.cpf);
@@ -61,7 +63,6 @@ public record FuncionarioRequestDTO(
         }
         funcionario.setEndereco(enderecoEncontrado.get());
         funcionario.setCargo(dto.cargo);
-        funcionario.setVendas(dto.vendas);
         return funcionario;
     }
 }

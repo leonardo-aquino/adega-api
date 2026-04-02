@@ -28,9 +28,9 @@ public class FornecedorService {
     private final EnderecoRepository enderecoRepository;
 
     @Transactional
-    public void salvarFornecedor(Fornecedor fornecedor){
+    public Fornecedor salvarFornecedor(Fornecedor fornecedor){
         validador.validar(fornecedor);
-        fornecedorRepository.save(fornecedor);
+        return fornecedorRepository.save(fornecedor);
     }
 
     public FornecedorDTOResponse buscarPorId(String id) {

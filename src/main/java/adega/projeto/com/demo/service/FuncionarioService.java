@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,11 +27,14 @@ public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
     private final FuncionarioValidador validador;
+    private final PasswordEncoder encoder;
 
     @Transactional
-    public void salvarFuncionario(Funcionario funcionario) {
+    public Funcionario salvarFuncionario(Funcionario funcionario) {
         validador.validar(funcionario);
-        funcionarioRepository.save(funcionario);
+        var senha = funcionario.getSenha();
+        funcionario.setSenha(encoder.encode(senha));
+       return funcionarioRepository.save(funcionario);
     }
 
     public Funcionario buscarPorId(String id){

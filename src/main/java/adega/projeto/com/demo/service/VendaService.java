@@ -36,7 +36,7 @@ public class VendaService {
 
 
     @Transactional
-    public void salvar(Venda venda, List<ItemVendaDTO> itensDTO) {
+    public Venda salvar(Venda venda, List<ItemVendaDTO> itensDTO) {
         if (venda.getItens() == null) {
             venda.setItens(new ArrayList<>()); // lista de ItensVenda
         }
@@ -68,7 +68,7 @@ public class VendaService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         venda.setValorTotal(total);
-        vendaRepository.save(venda);
+      return  vendaRepository.save(venda);
     }
 
     public Venda buscarVenda(String id) {

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ public class ProdutoController{
 
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('DONO','GERENTE')")
     public ResponseEntity<Void> criarProduto(@RequestBody @Valid ProdutoRequestDTO dto){
         Produto produto = dto.toEntity(dto);
         service.salvar(produto,dto.fornecedores());
@@ -31,6 +33,7 @@ public class ProdutoController{
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('DONO','GERENTE')")
     public ResponseEntity<Void> atualizarProduto(@PathVariable("id") String id,@RequestBody ProdutoRequestDTO dto){
         Produto produto = dto.toEntity(dto);
         service.atualizar(id,produto);
@@ -38,17 +41,20 @@ public class ProdutoController{
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('DONO')")
     public ResponseEntity<Void> deletarProduto(@PathVariable String id){
         service.deletar(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('DONO','GERENTE','FUNCIONARIO')")
     public ResponseEntity<ProdutoResponseDTO> buscarPorId(@PathVariable String id){
        return ResponseEntity.status(HttpStatus.OK).body(service.buscarPorId(id)) ;
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('DONO','GERENTE','FUNCIONARIO')")
     public ResponseEntity<Page<ProdutoResponseDTO>> buscarTodos(
             @RequestParam(value = "pagina",defaultValue = "0")Integer pagina,
             @RequestParam(value = "tamanho-pagina",defaultValue = "10")Integer tamanhoPagina,

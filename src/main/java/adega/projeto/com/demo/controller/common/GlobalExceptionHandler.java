@@ -4,6 +4,8 @@ import adega.projeto.com.demo.controller.dto.errosDTO.ErroCampo;
 import adega.projeto.com.demo.controller.dto.errosDTO.ErroResposta;
 import adega.projeto.com.demo.exceptions.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -74,6 +76,21 @@ public class GlobalExceptionHandler {
         ErroResposta erro = new ErroResposta(HttpStatus.BAD_REQUEST.value(),e.getMessage(), List.of());
         return erro;
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AuthorizationDeniedException .class)
+    public ErroResposta AuthorizationDeniedException(AuthorizationDeniedException e){
+        ErroResposta erro = new ErroResposta(HttpStatus.FORBIDDEN.value(),"Você não tem autorização para executar esta tarefa!", List.of());
+        return erro;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    public ErroResposta BadCredentialsException(BadCredentialsException e){
+        ErroResposta erro = new ErroResposta(HttpStatus.UNAUTHORIZED.value(),"Nenhum Funcionario com esse cpf ou senha", List.of());
+        return erro;
+    }
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)

@@ -7,10 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Funcionario {
+public class Funcionario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -41,6 +46,9 @@ public class Funcionario {
     @Column(name = "cargo", nullable = false, length = 50)
     private Cargo cargo;
 
+    @Column(name = "senha")
+    private String senha;
+
     // Vários funcionarios pode ter o mesmo Endereço
     @JoinColumn(name = "id_endereco")
     @ManyToOne
@@ -55,9 +63,34 @@ public class Funcionario {
     private String idade;
 
     @CreationTimestamp
-    @Column(name = "data_admissao", nullable = false, updatable = false)
+    @Column(name = "data_admissao", updatable = false)
     private LocalDate dataAdmissao;
 
     @Column(name = "data_demissao")
     private LocalDate dataDemissao;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + cargo.name()));
+    }
+
+    @Override
+    public @Nullable String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.cpf;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+    @Override
+    public boolean isEnabled() { return true; }
+
 }
